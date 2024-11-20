@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Handling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .highlight {
+            background-color: lightblue;
+        }
+        .large {
+            font-size: 24px;
+            color: green;
+        }
+       
+    </style>
+</head>
+<body onunload="alert('You are leaving the page!')">
+    <h1 id="title">Event Handling in JavaScript</h1>
+    
+    <button id="clickBtn">Click Me</button>
+    <input id="textInput" type="text" placeholder="Type anything..." />
+    <p id="hoverText">Hover over me to change my style!</p>
+    <img id="image" src="https://via.placeholder.com/150" alt="Placeholder Image" />
+    
+    <div id="parentDiv">
+        <div id="childDiv">Click Me for Event Propagation Test</div>
+    </div>
+    
+    <button id="addHandlerBtn">Add Click Event to Title</button>
+    <button id="removeHandlerBtn">Remove Click Event from Title</button>
+
+    <div id="output">Event Output will appear here.</div>
+
+    <script>
+        // Onload Event
+        window.onload = () => {
+            document.getElementById('output').innerHTML = 'Page has loaded!';
+        };
+
+        // Onclick Event
+        const clickBtn = document.getElementById('clickBtn');
+        clickBtn.onclick = () => {
+            const output = document.getElementById('output');
+            output.innerHTML = 'Button was clicked!';
+            
+        };
+
+        // Onchange Event
+        const textInput = document.getElementById('textInput');
+        textInput.onchange = (e) => {
+            document.getElementById('output').innerHTML = `You typed: ${e.target.value}`;
+        };
+
+        // Onmouseover and Onmouseout Events
+        const hoverText = document.getElementById('hoverText');
+        hoverText.onmouseover = () => {
+            hoverText.classList.add('large');
+        };
+        hoverText.onmouseout = () => {
+            hoverText.classList.remove('large');
+        };
+
+        // Onmousedown and Onmouseup Events
+        const image = document.getElementById('image');
+        image.onmousedown = () => {
+            image.style.border = '5px solid red';
+        };
+        image.onmouseup = () => {
+            image.style.border = '';
+        };
+
+        // Event Bubbling and Capturing
+        const parentDiv = document.getElementById('parentDiv');
+        const childDiv = document.getElementById('childDiv');
+
+        parentDiv.addEventListener(
+            'click',
+            () => {
+                alert('Parent Div Clicked! (Bubbling)');
+            },
+            false // Bubbling phase
+        );
+
+        parentDiv.addEventListener(
+            'click',
+            () => {
+                alert('Parent Div Clicked! (Capturing)');
+            },
+            true // Capturing phase
+        );
+
+        childDiv.addEventListener('click', () => {
+            alert('Child Div Clicked!');
+        });
+
+        // Adding and Removing Event Listeners
+        const title = document.getElementById('title');
+        const addHandlerBtn = document.getElementById('addHandlerBtn');
+        const removeHandlerBtn = document.getElementById('removeHandlerBtn');
+
+        const titleClickHandler = () => {
+            alert('Title Clicked!');
+        };
+
+        addHandlerBtn.onclick = () => {
+            title.addEventListener('click', titleClickHandler);
+            document.getElementById('output').innerHTML = 'Click event added to the title.';
+        };
+
+        removeHandlerBtn.onclick = () => {
+            title.removeEventListener('click', titleClickHandler);
+            document.getElementById('output').innerHTML = 'Click event removed from the title.';
+        };
+
+        // Reacting to Events using addEventListener
+        const output = document.getElementById('output');
+        output.addEventListener('click', () => {
+            alert('You clicked on the output section!');
+        });
+    </script>
+</body>
+</html>
